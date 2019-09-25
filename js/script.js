@@ -1,5 +1,5 @@
 
-var svg, circles, data_, forceSimulation, color;
+var svg, circles, data_, countries_, forceSimulation, color;
 var margin = {
     top: 25,
     right: 10,
@@ -13,9 +13,11 @@ var margin = {
     min_radius = 2,
     shapesData;
 let data = d3.csv("/data/data.csv");
+
 var QRole = 'Which one of these is the closest to describing your role?';
 var Qgender = "What's your gender identity?";
 var QYearsOfExperience = 'How many years of experience do you have doing professional data visualization?';
+var QStudySchool = 'Have you studied data visualization in school (or other formal environment) or did you learn how to do it on your own?';
 var QYearlyPay = 'What is your yearly pay?';
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().distance(10).strength(0.5))
@@ -32,9 +34,12 @@ $(function () {
 
     Promise.all([
         data,
+
     ]).then(function (files) {
         var data_answers = files[0];
-        data_ = data_answers
+
+        data_ = data_answers;
+        data_
             .sort((elem1, elem2) => {
                 const roleA = elem1[QRole].toLocaleLowerCase();
                 const roleB = elem2[QRole].toLocaleLowerCase();
@@ -95,11 +100,9 @@ $(function () {
                 "$180k - $200k",
                 "$200k+"
             ]).range([0, 11]);
-
         data_.map((d, i) => {
             var x1 = setX(angle(i), r1);
             var y1 = setY(angle(i), r1)
-
             var x2 = setX(angle(i), r1 - radiusScale(d[QYearsOfExperience]));
             var y2 = setY(angle(i), r1 - radiusScale(d[QYearsOfExperience]))
             d.x1 = x1;
@@ -107,8 +110,12 @@ $(function () {
             d.x2 = x2;
             d.y2 = y2;
             d.color = color(d[QRole]);
+            d.id = i;
+            d.radius = circleRadius(d[QYearlyPay]);
+
 
         });
+
         console.log(data_)
 
 
@@ -119,7 +126,6 @@ $(function () {
         shapesData = mainGroup.selectAll('g')
             .data(data_)
             .enter()
-
             .append("g")
             .attr('transform', 'translate(' + width / 2 + ', ' + height / 2 + ')')
 
@@ -141,33 +147,68 @@ $(function () {
             .attr('stroke-opacity', '0.5')
             .attr('stroke-linecap', 'round')
             .attr('stroke-dasharray', 'inherit')
+            .style("mix-blend-mode", 'multiply');
         //.attr('opacity',0)
 
         var totalLength = path.node().getTotalLength();
+        var circle = shapesData.append('circle')
+            .attr('r', 0)
+            .attr('id', d => 'center-' + d.id)
+            .attr('cx', d => d.x2)
+            .attr('cy', d => d.y2)
+            .attr('fill', d => d.color)
+            .attr('fill-opacity', 0.2);
+        var learningCircle = shapesData.append('circle')
+            .attr('id', d => 'secondary-circle-' + d.id)
+            .attr('cx', d => d.x2)
+            .attr('cy', d => d.y2)
+            .attr('stroke', d => d.color)
+            .attr('fill', 'transparent')
+            .attr('stroke-opacity', 0.4)
         path
             .attr("stroke-dasharray", r1 + totalLength + " " + r1 + totalLength)
             .attr("stroke-dashoffset", r1 + totalLength)
             .transition()
-            .delay((d, i) => (Math.random() * 2 +2) * i)
+            .delay((d, i) => (Math.random() * 2 + 2) * i)
             .duration(2000)
             .ease(d3.easeLinear)
             .attr("stroke-dashoffset", 0)
-            .attr('opacity', 1)
+            .attr('opacity', 0.5)
+            .on('end', (e) => {
+                d3.select('#center-' + e.id)
+                    .transition()
+                    .ease(d3.easeLinear)
+                    .duration(200)
+                    .attr('r', d => d.radius)
+                d3.select('#secondary-circle-' + e.id)
+                    .transition()
+                    .ease(d3.easeLinear)
+                    .duration(200)
+                    .attr('r', d => {
+                        var value = d[QStudySchool];
+                        var r = 0;
+                        if (value === 'Equal Parts School and Self-Taught') {
+                            r = d.radius;
+                        } else if (value === 'Mostly From School (or other formal courses)') {
+                            r = d.radius - 3;
+                        } else {
+                            r = d.radius + 3;
+                        }
+                        return r;
+                    })
+            })
+        //freelancer
+        shapesData.append('circle')
+            .attr('cx', d => d.x1)
+            .attr('cy', d => d.y1)
+            .attr('r', 1)
+            .attr('opacity', d => d["Are you a freelancer/consultant?"] === 'Yes' ? 1 : 0)
+            .attr('fill', d => d.color)
+            .attr('fill-opacity', 0.5)
 
-        // setTimeout(() => {
-        //     shapesData.append('circle')
-        //         .attr('r', 0)
-        //         .attr('cx', d => d.x2)
-        //         .attr('cy', d => d.y2)
-        //         .attr('fill', d => d.color)
-        //         .attr('fill-opacity', 0.2)
-        //         .transition()
-        //         .ease(d3.easeLinear)
-        //         .duration(200)
-        //         .attr('r', d => circleRadius(d[QYearlyPay]))
-        // }, 4000)
+        // studies data viz
 
-     
+
 
 
     }
@@ -196,7 +237,7 @@ $(function () {
         // We need a and b to find theta, and we need to know the sign of each to make sure that the orientation is correct.
         var a = Bx - Ax
         // var asign = (a < 0 ? -1 : 1)
-        console.log(setSign)
+        //  console.log(setSign)
         var asign = setSign === 'Man' ? 1 : -1;
         var b = By - Ay
         var bsign = (b < 0 ? -1 : 1)
