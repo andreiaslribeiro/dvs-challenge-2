@@ -13,7 +13,7 @@ body{
    color: #666;
    font-family: ff-dagny-web-pro, sans-serif;
    font-weight: 300;
-   font-size: 16px;
+   font-size: 17px;
 }
 h2{
   line-height: 1.25em;
@@ -33,7 +33,6 @@ strong{
   color: #83B692;
 }
 #graphic {
-  max-width:  1440px;
   width: 100%;
   position:   relative; 
   height:  100%;
@@ -95,4 +94,9 @@ svg{
 @-moz-keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+#legend-role{
+  top: -100px;
+    position: inherit;
 }
