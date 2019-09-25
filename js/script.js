@@ -83,7 +83,21 @@ $(function () {
                 "$180k - $200k",
                 "$200k+"
             ]).range([3, 14]);
-  
+        curveScale = d3.scaleBand()
+            .domain([
+                "",
+                "Less than $20,000",
+                "$20k - $40k",
+                "$40k - $60k",
+                "$60k - $80k",
+                "$80k - $100k",
+                "$100k - $120k",
+                "$120k - $140k",
+                "$140k - $160k",
+                "$160k - $180k",
+                "$180k - $200k",
+                "$200k+"
+            ]).range([1, 6]);
     }
     function createSVG() {
 
@@ -152,7 +166,7 @@ $(function () {
             .attr('stroke', d => d.color)
             .attr('fill', 'none')
             .attr('d', (d, i) => {
-                return draw_curve(d.x1, d.y1, d.x2, d.y2, 15, d[Qgender]);
+                return draw_curve(d.x1, d.y1, d.x2, d.y2, 15, d[Qgender], curveScale(d[QYearlyPay]));
             })
             .attr('stroke-opacity', 1)
             .attr('stroke-linecap', 'round')
@@ -244,7 +258,7 @@ $(function () {
         // start from 12 o'clock
         return radius * Math.cos(a * radians)
     }
-    function draw_curve(Ax, Ay, Bx, By, M, setSign) {
+    function draw_curve(Ax, Ay, Bx, By, M, setSign, curveSize) {
         // Find midpoint J
         var Jx = Ax + (Bx - Ax) / 2
         var Jy = Ay + (By - Ay) / 2
@@ -255,9 +269,9 @@ $(function () {
         var asign = 0;
 
         if (setSign === 'Man') {
-            asign = -3;
+            asign = -Math.abs(curveSize);
         } else if (setSign === 'Woman') {
-            asign = 3;
+            asign = Math.abs(curveSize);
         } else {
             asign = 0
         }
