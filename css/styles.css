@@ -9,7 +9,8 @@ body{
    height: 100%;
    padding: 0;
    scroll-behavior: smooth;
-   background: #f7f5f2;
+   background: #151721;
+   /* #151721 #f7f5f2 */
    color: #666;
    font-family: ff-dagny-web-pro, sans-serif;
    font-weight: 300;
@@ -64,6 +65,7 @@ strong{
 #svg-container{
   height:100vh;
   width:100%;
+  position: fixed;
 }
 svg{
     min-height:100%;
@@ -97,6 +99,6 @@ svg{
 }
 
 #legend-role{
-  top: -100px;
-    position: inherit;
+
+    position: fixed;
 }

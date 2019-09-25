@@ -55,6 +55,7 @@ $(function () {
         createShapesRadial();
 
         createLegend(d3.select('#legend-role'), color.domain(), QRole);
+      //  new scroll('div2', '50%', setUpGender, setUpDefault);
     }).catch(function (err) {
     });
 
@@ -67,7 +68,7 @@ $(function () {
         // learning scale
         scaleLearning = d3.scaleOrdinal()
             .domain(['Mostly Self-Taught', 'Equal Parts School and Self-Taught', 'Mostly From School (or other formal courses)'])
-            .range(['2', '6', '0'])
+            .range(['2', '6', '10'])
         circleRadius = d3.scaleBand()
             .domain([
                 "",
@@ -97,7 +98,7 @@ $(function () {
                 "$160k - $180k",
                 "$180k - $200k",
                 "$200k+"
-            ]).range([1, 6]);
+            ]).range([0.1, 6]);
     }
     function createSVG() {
 
@@ -168,7 +169,7 @@ $(function () {
             .attr('d', (d, i) => {
                 return draw_curve(d.x1, d.y1, d.x2, d.y2, 15, d[Qgender], curveScale(d[QYearlyPay]));
             })
-            .attr('stroke-opacity', 1)
+            .attr('stroke-opacity', 0.9)
             .attr('stroke-linecap', 'round')
             .attr('stroke-dasharray', 'inherit')
             .attr('stroke-linecap', 'round')
@@ -183,11 +184,11 @@ $(function () {
             .attr('cy', d => d.y2)
             .attr('fill', d => d.color)
             .attr('fill-opacity', 0.2)
-            .attr('stroke-opacity', 0.5)
+            .attr('stroke-opacity', 0.2)
             .attr('stroke', d => d.color)
             .attr('stroke-dasharray', d => scaleLearning(d[QStudySchool]))
-            .attr('stroke-width', 1.5)
-
+            .attr('stroke-width', d => d.radius)
+       
         shapesData.append('circle').attr('r', 0)
             .attr('id', d => 'freelancer-' + d.id)
             .attr('cx', d => d.x2)
@@ -269,9 +270,9 @@ $(function () {
         var asign = 0;
 
         if (setSign === 'Man') {
-            asign = -Math.abs(curveSize);
+            asign =  curveSize ? -Math.abs(curveSize): 1;
         } else if (setSign === 'Woman') {
-            asign = Math.abs(curveSize);
+            asign = curveSize ? Math.abs(curveSize): 1;
         } else {
             asign = 0
         }
@@ -306,7 +307,9 @@ $(function () {
             .enter()
             .append('g')
             .attr('transform', (d, i) => position(d, i))
+            .attr('opacity', 0.7)
             .style('cursor', 'pointer')
+            .style("mix-blend-mode", 'multiply')
             .on('mouseover', d => {
                 shapesData
                     .transition()
@@ -315,7 +318,7 @@ $(function () {
                         var opt;
 
 
-                        return d === p[variable] ? 1 : 0.2
+                        return d === p[variable] ? 0.7 : 0.2
 
 
 
@@ -373,5 +376,11 @@ $(function () {
             offset: offset
         });
     };
+    function setUpDefault(){
+        shapesData.transition('elastic').duration(1000).attr('opacity',1)
+    }
+    function setUpGender(){
+        shapesData.transition('elastic').duration(1000).attr('opacity', d=> d[Qgender]==='Man' ? 1 : 0.2)
+    }
 });
 
