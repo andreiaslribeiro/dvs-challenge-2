@@ -1,1 +1,1 @@
-# dvs-challenge-2
+# the-garden

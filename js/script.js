@@ -14,7 +14,7 @@ var margin = {
     shapesData,
     circleRadius,
     curveScale, lengthScale, r1;
-let data = d3.csv("/data/data.csv");
+let data = d3.csv("data/data.csv");
 var scaleLearning;
 var QRole = 'Which one of these is the closest to describing your role?';
 var Qgender = "What's your gender identity?";
