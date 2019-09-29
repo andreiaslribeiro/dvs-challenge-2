@@ -150,7 +150,8 @@ $(function () {
             .attr("width", width)
             .attr("height", height)
             .style("left", margin.left + "px")
-            .style("top", margin.top + "px").append('g')
+           // .style("top", margin.top + "px")
+           .append('g')
             .attr("width", width)
             .attr("height", height)
             .style("transform", 'translate(' + margin.left + 'px, ' + margin.top + 'px)')
@@ -196,7 +197,7 @@ $(function () {
             .on('mouseover', function (d) {
                 // shapesData.transition().duration('100').attr('opacity', 0.2)
                 // d3.select(this).transition().duration('100').attr('opacity', 1)
-                console.log(d[Qgender])
+               
             })
             // .on('mouseout', function (d) {
             //     shapesData.transition().duration('100').attr('opacity', 1)
@@ -384,13 +385,14 @@ $(function () {
 
         legend.append("circle")
             .attr('transform', 'translate(' + 10 + ',0)')
-            .attr('r', 5)
+            .attr('r', 4)
             .attr("fill", d => color(d))
             .attr("stroke", d => color(d))
             .attr('fill-opacity', 0.8)
         legend
             .append("text")
-            .attr("x", 20)
+            .attr("x", 23)
+            .attr("y", 2)
             .style("fill", '#666')
             .text(function (d) {
                 if (d === 'Leadership (Manager, Director, VP, etc)') {

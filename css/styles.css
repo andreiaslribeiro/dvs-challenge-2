@@ -55,7 +55,7 @@ h5 {
 h2 {
   line-height: 1.25em;
   font-weight: 600;
-  font-size: 1.7em;
+  font-size: 1.6em;
   margin-bottom: 12px;
   color: white;
 }
@@ -126,6 +126,9 @@ strong {
   height: 100vh;
   width: 100%;
   position: fixed;
+}
+#svg-container svg{
+  position: absolute;
 }
 
 svg {
