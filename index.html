@@ -12,23 +12,75 @@
 </head>
 
 <body id="body">
-<div id="graphic">
-    <div id="svg-container">
-       
+    <div class="container">
+        <div id="info">
+            <section style="margin-bottom:32px; " >
+                <h2 class="fadeIn">Diversity on Data <br>Visualization Society</h2>
+                <p class="fadeIn">
+                    This year, <strong>1359 people</strong> answered the The Annual Data Visualization Community Survey
+                </p>
+                <section >
+                    <!--LEGEND ROLE-->
+                    <section class="section-legend fadeIn">
+                        <h5 class="text-uppercase">
+                            <!-- <span class="color-gray">COLOR</span> -->
+                             ROLE</h5>
+                        <svg id="legend-role" style="height:50px"></svg>
+                    </section>
+                    <!--LEGEND GENDER-->
+                    <section class="section-legend fadeIn">
+                        <h5 class="text-uppercase">
+                            <!-- <span class="color-gray">DIRECTION</span>  -->
+                            GENDER IDENTITY</h5>
+                        <svg id="legend-gender" style="height:10px;    transform: translateY(-5px);"></svg>
+                    </section>
+
+                    <!--LEGEND YEARLY PAY-->
+                    <section class="section-legend fadeIn">
+                        <h5 class="text-uppercase">
+                            <!-- <span class="color-gray">RADIUS</span>  -->
+                            YEARLY PAY</h5>
+                        <svg id="legend-yearly-pay" style="height:30px; margin-top:0px"></svg>
+                    </section>
+
+
+                    <!--LEGEND EXPERIENCE-->
+                    <section class="section-legend fadeIn">
+                        <h5 class="text-uppercase">
+                            <!-- <span class="color-gray">LENGTH</span>  -->
+                            Experience</h5>
+                        <svg id="legend-experience"  style="height:10px; margin-top:0px"></svg>
+                    </section>
+
+                    <!--LEGEND LEARNING PROCESS-->
+                    <section class="section-legend fadeIn">
+                        <h5 class="text-uppercase">
+                            <!-- <span class="color-gray">OUTLINE</span>  -->
+                            LEARNING DATA VIZ</h5>
+                        <svg id="legend-learning"  style="height:50px;"></svg>
+                    </section>
+
+                    <!--LEGEND IS FREELANCER-->
+                    <section class="section-legend fadeIn">
+                        <div id="is-freelancer" style="display:inline-flex; align-items:center"><img  width="15px"src="css/freelancer.svg" style="margin-right:10px" /> <text>Is a freelancer / consultat</text></div>
+                     
+                        
+                    </section>
+
+        </div>
+
+        <div id="graphic">
+
+            <div id="svg-container">
+             
+            </div>
+
+            <h2 class="secondary-font"style="position:absolute; bottom: 5vh;
+            right: 80px;"> <span id="current-selection">1359</span></h2>
+
+
+        </div>
     </div>
-    <!-- <div class="container">
-        <div id="div1">
-           nada
-        </div>
-        <div id="div2">
-           Show Male
-        </div>
-    </div> -->
-    <svg id="legend-role"></svg>
-    <svg id="legend-yearly-pay"></svg>
-    <svg id="legend-gender"></svg>
-</div>
-      
 </body>
 
 </html>
