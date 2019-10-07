@@ -657,7 +657,8 @@ $(function () {
     }
 
     function updateValues(value){
-        d3.select('#current-selection').html(value)
+        var percentage = value === 1359 ? 1359 : ((value * 100) /1359).toFixed(2)+'%';
+        d3.select('#current-selection').html(percentage)
     }
 });
 
